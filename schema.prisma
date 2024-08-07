@@ -1,0 +1,58 @@
+datasource db {
+    provider = "mysql"
+    url = "*****************"
+    shadowDatabaseUrl = "***************************************"
+}
+
+generator client {
+    provider = "prisma-client-js"
+    // binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
+}
+
+enum AdminType {
+    SuperUser
+    Admin
+    Mod
+}
+
+model Users {
+    discordId String @unique
+    userName String
+    displayName String
+    survRank String
+    adminRank AdminType?
+}
+
+model Suggestion {
+    id Int @id @default(autoincrement()) @unique
+    title String
+    body String
+    date DateTime
+}
+
+model Adverts {
+    id Int @id @default(autoincrement()) @unique
+    title String @unique
+    body String
+    mentionChannelId String?
+    lastSent DateTime?
+}
+
+model News {
+    id Int @id @default(autoincrement()) @unique
+    title String
+    body String @db.Text
+    image String?
+    link String?
+    date DateTime
+    sent Int
+}
+
+model systemControl {
+    name String @id @unique
+    bool Boolean?
+    int Int?
+    str String?
+    dt DateTime?
+    list Json?
+}
