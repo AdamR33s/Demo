@@ -12,6 +12,7 @@ import aiomysql
 import data.db_data as scars_data
 import sqlalchemy as sa
 import utils
+import configparser
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession  # New
 from sqlalchemy.orm import (
     declarative_base,
@@ -26,10 +27,17 @@ from datetime import datetime
 from typing import Optional
 
 ################################################################################################
+############################################# Config Passwords ###############################
+################################################################################################
+
+config = configparser.ConfigParser()
+config.read("db_manager.conf")
+
+################################################################################################
 ############################################# Async DB Connection ###############################
 ################################################################################################
 
-db_url = "*****************************"
+db_url = config["bot"]["connection_string"]
 async_bot_engine = create_async_engine(db_url)
 
 async_session = sessionmaker(
@@ -545,9 +553,9 @@ class Database:
 ################################################################################################
 ########################################### Sync DB Connections #####################################
 ################################################################################################
-pzdb_engine = sa.create_engine("**********************")
+pzdb_engine = sa.create_engine(config["pzdb"]["connection_string"])
 lkdb_engine = sa.create_engine(
-    "*********************************************",
+    config["lkdb"]["connection_string"],
     pool_size=5,
     max_overflow=2,
     pool_recycle=1800,
