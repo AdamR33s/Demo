@@ -37,7 +37,7 @@ config.read("db_manager.conf")
 ############################################# Async DB Connection ###############################
 ################################################################################################
 
-db_url = config["bot"]["connection_string"]
+db_url = config["bot"]["db_url"]
 async_bot_engine = create_async_engine(db_url)
 
 async_session = sessionmaker(
