@@ -1,0 +1,47 @@
+FROM ubuntu:23.04
+
+ENV HOME "/home/pz"
+
+# Add multiverse repository and install necessary tools
+RUN apt-get update && apt-get install -y \
+    software-properties-common curl && \
+    add-apt-repository multiverse && \
+    apt-get update
+
+# Install 32-bit architecture support and dependencies
+RUN dpkg --add-architecture i386 && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get update && \
+    apt-get install --no-install-recommends --assume-yes \
+    libc6:i386 libncurses5:i386 libstdc++6:i386 openjdk-21-jre-headless python3 python3-venv python3-pip \
+    && apt-get clean
+
+RUN mkdir -p /steamcmd && \
+    groupadd -g 1016 servers && \
+    useradd -g 1016 -u 1015 pz
+
+# Copy over Addon Files & Python Script
+COPY --chown=pz:1016 pz_test_entrypoint.py /pz/setup/pz_test_entrypoint.py
+COPY --chown=pz:1016 pz_settings.py /pz/setup/pz_settings.py
+COPY --chown=pz:1016 /cfgs/server.ini /pz/setup/server.ini
+COPY --chown=pz:1016 /cfgs/servercvars.lua /pz/setup/servercvars.lua
+COPY --chown=pz:1016 /cfgs/ProjectZomboid64.json /pz/setup/ProjectZomboid64.json
+
+RUN curl -s https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -vxz -C /steamcmd
+RUN /steamcmd/steamcmd.sh +quit
+
+# Change ownership and exec. of the files
+RUN chmod 775 /pz/ \
+    && chmod +x /pz/setup/pz_settings.py \
+    && chmod +x /pz/setup/pz_test_entrypoint.py \
+    && chmod +x /steamcmd/steamcmd.sh \
+    && chmod +x /pz/setup/ProjectZomboid64.json \
+    && chown -R pz:1016 /steamcmd/ \
+    && chown -R pz:1016 /pz/
+
+USER pz
+WORKDIR /pz
+
+RUN python3.11 -m venv pzv \
+    && . /pz/pzv/bin/activate \
+    && pip install --no-cache-dir --upgrade pip jinja2 aioconsole aiohttp
