@@ -2,9 +2,6 @@ Welcome to my Demonstration Repo The full KYR project is over 10,000+ lines of c
 
 Contact Details 
 Adam Rees - 07400 28 3333 - Adzz.GSAU@gmail.com Founder - KYR Gaming - An International Online Community for ND Developers and Online Gamers.
- 
-(R4ptor@KYRGaming.com - For Game Server Related Queries)
-(Tot4ll3d@KYRGaming.com - For Network / Website Related Queries)
 
 Overview Here you'll find:
 
