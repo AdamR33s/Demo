@@ -1,4 +1,8 @@
-Welcome to my Demonstration Repo The full KYR project is over 10,000+ lines of code over 4 languages, 3 databases, 2 API's, 1 Dedicated Server, 9 Dedicated Online Gaming Servers, 1 Website, 120,000+ online subscribers and 200+ international discord members. I've tried my best to give a slice of the project and what I've taught myself over the past 18months. I would love to appear in person/video call to talk through the full private project repo in detail for anyone who might be interested in my services!
+Welcome to my Demonstration Repo 
+
+The full KYR project is over 10,000+ lines of code over 4 languages, 3 databases, 2 API's, 1 Dedicated Server, 9 Dedicated Online Gaming Servers, 1 Website, 120,000+ online subscribers and 200+ international discord members. 
+
+I've tried my best to give a slice of the project and what I've taught myself over the past 18months. I would love to appear in person/video call to talk through the full private project repo in detail for anyone who might be interested in my services!
 
 Contact Details 
 Adam Rees - 07400 28 3333 - Adzz.GSAU@gmail.com Founder - KYR Gaming - An International Online Community for ND Developers and Gamers.
