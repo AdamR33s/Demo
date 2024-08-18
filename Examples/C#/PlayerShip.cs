@@ -1,324 +1,363 @@
-using System;
-using System.Collections.Generic;
 using Godot;
-
 
 public partial class PlayerShip : CharacterBody2D
 {
-	class Hull
-	{
-		public CharacterBody2D instance;
-		public AnimationPlayer animPlayer;
-		public Sprite2D sprite;
-	}
-
-	class Engines
-	{
-		public CharacterBody2D instance;
-		public AnimationPlayer animPlayer;
-		public Sprite2D sprite;
-	}
-
-	class LandingGear
-	{
-		public CharacterBody2D instance;
-		public AnimationPlayer animPlayer;
-		public Sprite2D sprite;
-	}
-
-	//Martian Signals
-	[Signal] public delegate void StatsUpdateEventHandler(float health, float fuel); // Signal for refreshing stats after change / degrade
+	// PlayerShip Signals
+	[Signal] public delegate void StatsUpdateEventHandler(float Integrity, float Shield, float Fuel, float SuperFuel, float ElectricCharge, float Velocity); // Signal for refreshing stats after change / degrade
+	[Signal] public delegate void StatsMaxUpdateEventHandler(float MaxIntegrity, float MaxShield, float MaxFuel, float MaxSuperFuel, float MaxElectricCharge); // Signal for refreshing stats after change / degrade
+	[Signal] public delegate void FlightModeUpdateEventHandler(PlayerShipFlightMode flightMode); // Signal for changing weapon
 	[Signal] public delegate void WeaponUpdateEventHandler(int WeaponType);
+	[Signal] public delegate void GridRefUpdateEventHandler(Vector2 position);
 	[Signal] public delegate void ShipTimedActionEventHandler(string taskName, float taskDuration); // Timed Action Signal
 
-	private Vector2 mousePostion = new();
-	private Vector2 direction = new();
-	private Vector2 strafeDirection = new();
-	private Hull hull = new();
-	private Engines engines = new();
-	private LandingGear landingGear = new();
-	public State state;
-	public Node2D crosshair;
-	private float crosshairDistance = 200.0f;
-
-	public enum State
+	public class PlayerShipConfig
 	{
-		idle,
-		moving,
-		attacking,
-		retreating,
-		landing,
-
+		public float CrosshairDistance { get; private set; } = 200.0f;
 	}
 
-	public enum AnimPlayers
+	public class PlayerShipAttr
 	{
-		Hull,
-		Engine,
-		Landing
+		public float Acceleration { get; private set; } = 500.00f;
+		public float LandingAcceleration { get; private set; } = 200.00f;
+		public float Agility { get; private set; } = 0.5f;
+		public float LandingAgility { get; private set; } = 0.3f;
+		public float TargetingSpeed { get; private set; } = 1.0f;
+		public float Friction { get; private set; } = 0.10f;
 	}
 
-	public enum ShipStats // Setup Stats Type and Variables for Each Martian
-	{
-		integrity,
-		fuel,
-		maxspeed,
-		acceleration,
-		landingAcceleration,
-		friction,
-		agility,
-		landingAgility,
-		targetingspeed
-	}
-
-	private enum ShipConfig
-	{
-		FlightMode,
-		Crosshair,
-	}
-
-	private enum FlightMode
+	public enum PlayerShipFlightMode
 	{
 		Utility,
 		Combat,
 		Landing,
-
 	}
 
-	[Export] public float integrity { get; private set; } = 100.00f;
-	[Export] public float maxspeed { get; private set; } = 500.00f;
-	[Export] public float fuel { get; private set; } = 100.00f;
-	[Export] public float acceleration { get; private set; } = 500.00f;
-	[Export] public float landingAcceleration { get; private set; } = 200.00f;
-	[Export] public float friction { get; private set; } = 0.20f;
-	[Export] public float agility { get; private set; } = 0.5f;
-	[Export] public float landingAgility { get; private set; } = 0.3f;
-	[Export] public float targetingSpeed { get; private set; } = 1.0f;
-
-
-	[Export] private FlightMode flightmode;
-	public Weapon weapon; // Current Weapon
+	private Vector2 mousePosition = new();
+	private Vector2 direction = new();
 	private Node2D weaponSlot; // Current Weapon Slot
+	private PlayerShipFlightMode flightMode;
+	private KinematicCollision2D playerShipCollision;
+	private Hull hull;
+	private PlayerEngines engines;
+	private PlauyerLandingGear landingGear;
+	private AnimationPlayer shipAnimPlayer;
+
+	public Weapon Weapon;
+	public Node2D Crosshair;
+	public Area2D Scanner;
+	public CollisionShape2D ScannerArea;
+
+	private readonly ShipStats ShipStats = new();
+	public readonly PlayerShipAttr ShipAttr = new();
+	public readonly PlayerShipConfig ShipConfig = new();
 
 	public override void _Ready() // Generate Stats & Skills on Instantiation, 
 	{
-		hull.instance = GetNode<CharacterBody2D>("Hull");
-		hull.animPlayer = GetNode<AnimationPlayer>("Hull/AnimPlayer");
-		hull.sprite = GetNode<Sprite2D>("Hull/HullSprite");
-		engines.instance = GetNode<CharacterBody2D>("Engines");
-		engines.animPlayer = GetNode<AnimationPlayer>("Engines/AnimPlayer");
-		engines.sprite = GetNode<Sprite2D>("Engines/EnginesSprite");
-		landingGear.instance = GetNode<CharacterBody2D>("LandingGear");
-		landingGear.animPlayer = GetNode<AnimationPlayer>("LandingGear/AnimPlayer");
-		landingGear.sprite = GetNode<Sprite2D>("LandingGear/LandingGearSprite");
+		// Setup Ship Components
+		hull = GetNode<Hull>("Hull");
+		engines = GetNode<PlayerEngines>("PlayerEngines");
+		landingGear = new PlauyerLandingGear();
+		landingGear.AnimPlayer = GetNode<AnimationPlayer>("LGAnimPlayer");
+		shipAnimPlayer = GetNode<AnimationPlayer>("ShipAnimPlayer");
 
-		flightmode = FlightMode.Combat; // TODO - REMOVE AFTER TESTING
+		// Collision Setup
+		hull.cB = GetNode<CollisionPolygon2D>("HullCB");
+		engines.e1cB = GetNode<CollisionPolygon2D>("Engine1CB");
+		engines.e2cB = GetNode<CollisionPolygon2D>("Engine2CB");
+		landingGear.cB1 = GetNode<CollisionPolygon2D>("LGCB1");
+		landingGear.cB2 = GetNode<CollisionPolygon2D>("LGCB2");
 
-		EmitSignal(SignalName.StatsUpdate, integrity, fuel); // Stats Update Signal
-		EquipWeapon(WeaponFactory.Type.Pistol);
-		updateShipAnims();
+		// Setup Ship Components
+		Scanner = GetNode<Area2D>("Scanner");
+		ScannerArea = GetNode<CollisionShape2D>("Scanner/ScannerArea");
+
+		// Setup Ship Config
+		ShipStats.CurrentFuel.Change(Fuels.Type.Hydrazine);
+		ShipStats.CurrentFuel.Add(100.0f, ShipStats.MaxFuel);
+		ShipStats.CurrentSuperFuel.Change(SuperFuels.Type.LH2LOX);
+		ShipStats.CurrentSuperFuel.Add(100.0f, ShipStats.MaxSuperFuel);
+		flightMode = PlayerShipFlightMode.Combat; // TODO - REMOVE AFTER TESTING
+
+		// Setup Ship Stats and Start Anims
+		EmitSignal(SignalName.StatsMaxUpdate, ShipStats.Integrity, ShipStats.Shield, ShipStats.CurrentFuel.Amount, ShipStats.CurrentSuperFuel.Amount, ShipStats.ElectricCharge, Velocity.Length()); // Stats Max Update Signal
+		EmitSignal(SignalName.StatsUpdate, ShipStats.Integrity); // Stats Update Signal
+		EmitSignal(SignalName.FlightModeUpdate, (int)flightMode); // Flight Mode Update Signal
+		EquipWeapon(PlayerWeaponFactory.Type.Blaster);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		mousePostion = GetGlobalMousePosition();
+		mousePosition = GetGlobalMousePosition();
 		checkInput();
-		updateShipAnims();
-		updateFlight(mousePostion, delta);
-		updateCrosshair(mousePostion, delta);
+		updateFlight(delta);
+	}
+
+	public override void _Process(double delta)
+	{
+		updateCrosshair(mousePosition);
+		EmitSignal(SignalName.GridRefUpdate, GlobalPosition);
 	}
 
 	public void checkInput()
 	{
+		if (Input.IsActionJustPressed("ui_flightmode") || Input.IsActionJustPressed("ui_landing"))
+		{
+			ChangeFlightMode(Input.IsActionJustPressed("ui_landing"));
+		}
+		if ((flightMode == PlayerShipFlightMode.Utility || flightMode == PlayerShipFlightMode.Combat) && Input.IsActionJustPressed("ui_afterburner"))
+		{
+			if (engines.fixedState == PlayerEngines.FixedStates.Afterburner)
+			{
+				engines.ChangeFixedState(PlayerEngines.FixedStates.Normal);
+			}
+			else
+			{
+				engines.ChangeFixedState(PlayerEngines.FixedStates.Afterburner);
+			}
+		}
 		if (Input.IsActionJustPressed("ui_shoot"))
 		{
-			weapon.Shoot(Velocity);
+			Weapon.Shoot(Velocity);
 			GD.Print("Fired One Shot Call");
 		}
-		if (Input.IsActionJustPressed("ui_flightmode"))
-		{
-			ChangeFlightMode();
-		}
-		if (Input.IsActionJustPressed("ui_landing"))
-		{
-			flightmode = FlightMode.Landing;
-			crosshair.Visible = false;
-			landingGear.sprite.Visible = true;
-			landingGear.animPlayer.Play("deploy");
-		}
 	}
 
-	public void ChangeFlightMode()
+	public void ChangeFlightMode(bool isLanding = false)
 	{
-		switch (flightmode)
+		if (isLanding)
 		{
-			case FlightMode.Utility:
-				flightmode = FlightMode.Combat;
-				crosshair.Visible = true;
-				break;
-			case FlightMode.Combat:
-				flightmode = FlightMode.Utility;
-				crosshair.Visible = false;
-				break;
-			case FlightMode.Landing:
-				flightmode = FlightMode.Utility;
-				break;
-		};
+			flightMode = PlayerShipFlightMode.Landing;
+			hull.SetLandingMode();
+			engines.ChangeFixedState(PlayerEngines.FixedStates.Landing);
+			landingGear.SetLandingMode();
+			Crosshair.Visible = false;
+		}
+		else
+			switch (flightMode)
+			{
+				case PlayerShipFlightMode.Utility:
+					flightMode = PlayerShipFlightMode.Combat;
+					hull.SetCombatMode();
+					engines.ChangeFixedState(PlayerEngines.FixedStates.Normal);
+					landingGear.SetCombatMode();
+					Crosshair.Visible = true;
+					break;
+				case PlayerShipFlightMode.Combat:
+					flightMode = PlayerShipFlightMode.Utility;
+					hull.SetUtilityMode();
+					engines.ChangeFixedState(PlayerEngines.FixedStates.Normal);
+					landingGear.SetUtilityMode();
+					Crosshair.Visible = false;
+					break;
+				case PlayerShipFlightMode.Landing:
+					flightMode = PlayerShipFlightMode.Utility;
+					hull.SetUtilityMode();
+					engines.ChangeFixedState(PlayerEngines.FixedStates.Normal);
+					landingGear.SetUtilityMode();
+					Crosshair.Visible = false;
+					break;
+			};
+		EmitSignal(SignalName.FlightModeUpdate, (int)flightMode);
 	}
 
-	public void updateCrosshair(Vector2 mousePostion, double delta)
+	public void updateCrosshair(Vector2 mousePostion)
 	{
 		var angleDifference = GetAngleTo(mousePostion);
 		var clampedAngle = Rotation + Mathf.Clamp(angleDifference, -Mathf.DegToRad(15), +Mathf.DegToRad(15));
 		// Convert the angle to a unit vector
-		var direction = new Vector2(Mathf.Cos(clampedAngle), Mathf.Sin(clampedAngle));
+		direction = Vector2.FromAngle(clampedAngle);
 		// Move the crosshair towards the direction
-		crosshair.Position = Position + direction * crosshairDistance;
+		Crosshair.Position = Position + direction * ShipConfig.CrosshairDistance;
 	}
 
-	public void updateFlight(Vector2 mousePostion, double delta)
+	public void updateFlight(double delta)
 	{
-		switch (flightmode)
+		switch (flightMode)
 		{
-			case FlightMode.Utility:
+			case PlayerShipFlightMode.Utility:
 				shipHeadingUtility(delta);
+				shipMovementUtility(delta);
 				break;
-			case FlightMode.Combat:
+			case PlayerShipFlightMode.Combat:
 				shipHeadingCombat(delta);
+				shipMovementCombat(delta);
 				break;
-			case FlightMode.Landing:
+			case PlayerShipFlightMode.Landing:
 				shipHeadingLanding(delta);
+				shipMovementLanding(delta);
 				break;
 		}
 	}
 
 	public void shipHeadingCombat(double delta)
 	{
-		var headingDifference = GetAngleTo(mousePostion);
+		var headingDifference = GetAngleTo(mousePosition);
 		if (Mathf.Abs(headingDifference) > (float)0.01)
 		{
-			Rotate(headingDifference * (float)delta * agility);
+			Rotate(headingDifference * (float)delta * ShipAttr.Agility);
 		}
-		shipMovementCombat(delta);
 	}
 
 	public void shipMovementCombat(double delta)
 	{
-		direction = (mousePostion - GlobalPosition).Normalized();
-		if (!Input.IsActionPressed("ui_up"))
+		direction = Vector2.FromAngle(Rotation);
+		if (Input.IsActionPressed("ui_up") && engines.fixedState == PlayerEngines.FixedStates.Afterburner)
 		{
-			// If "ui_up" is not pressed, apply friction to slow down the ship
-			if (Velocity.Length() > (friction * delta))
+			if (engines.liveState == PlayerEngines.LiveStates.Idle)
 			{
-				Velocity *= (float)Mathf.Pow(1.0 - friction, delta);
+				engines.ChangeLiveState(PlayerEngines.LiveStates.Accelerating);
+			}
+			Velocity += direction * (float)((ShipStats.CurrentFuel.Acceleration + ShipStats.CurrentSuperFuel.Acceleration) * delta);
+			ShipStats.CurrentFuel.Burn((float)delta);
+			ShipStats.CurrentSuperFuel.Burn((float)delta);
+			Velocity = Velocity.LimitLength(ShipStats.CurrentFuel.MaxSpeed + ShipStats.CurrentSuperFuel.MaxSpeed);
+
+		}
+		else
+		if (Input.IsActionPressed("ui_up"))
+		{
+			if (engines.liveState == PlayerEngines.LiveStates.Idle)
+			{
+				engines.ChangeLiveState(PlayerEngines.LiveStates.Accelerating);
+			}
+			// If "ui_up" is pressed, accelerate the ship in the given direction
+			Velocity += direction * (float)(ShipStats.CurrentFuel.Acceleration * delta);
+			ShipStats.CurrentFuel.Burn((float)delta);
+			Velocity = Velocity.LimitLength(ShipStats.CurrentFuel.MaxSpeed);
+		}
+		else
+		{
+			if (engines.liveState == PlayerEngines.LiveStates.Accelerating)
+			{
+				engines.ChangeLiveState(PlayerEngines.LiveStates.Idle);
+			}
+			// If "ui_up" is not pressed, apply friction to slow down the ship
+			if (Velocity.Length() > (ShipAttr.Friction * delta))
+			{
+				Velocity *= (float)Mathf.Pow(1.0 - ShipAttr.Friction, delta);
 			}
 			else
 			{
 				Velocity = Vector2.Zero;
 			}
 		}
-		else
+		playerShipCollision = MoveAndCollide(Velocity * (float)delta);
+		if (playerShipCollision != null)
 		{
-			// If "ui_up" is pressed, accelerate the ship in the given direction
-			Velocity += direction * (float)(acceleration * delta);
-			fuel -= 0.01f * 60.0f * (float)delta;
+			var hitinfo = playerShipCollision.GetCollider();
+			var localShape = playerShipCollision.GetLocalShape();
+			GD.Print(" Local Shape: ", localShape);
+			if (hitinfo is StaticBody2D)
+			{
+				Velocity = Velocity.Bounce(playerShipCollision.GetNormal());
+			}
 		}
-
-		// Limit the velocity to the maximum speed
-		Velocity = Velocity.LimitLength(maxspeed);
-
-		// Move the ship
-		MoveAndSlide();
-		EmitSignal(SignalName.StatsUpdate, integrity, fuel);
+		EmitSignal(SignalName.StatsUpdate, ShipStats.Integrity, ShipStats.Shield, ShipStats.CurrentFuel.Amount, ShipStats.CurrentSuperFuel.Amount, ShipStats.ElectricCharge, Velocity.Length());
 	}
 
 	public void shipHeadingUtility(double delta)
 	{
 		if (Input.IsActionPressed("ui_left"))
 		{
-			Rotate(-agility * (float)delta);
+			Rotate(-ShipAttr.Agility * (float)delta);
 		}
 		if (Input.IsActionPressed("ui_right"))
 		{
-			Rotate(agility * (float)delta);
+			Rotate(ShipAttr.Agility * (float)delta);
 		}
-		shipMovementUtility(delta);
 	}
 
 	public void shipMovementUtility(double delta) // KEYBOARD MOVEMENT
 	{
 		direction = new Vector2(1, 0).Rotated(Rotation).Normalized();
+
+		if (Input.IsActionPressed("ui_up") && engines.fixedState == PlayerEngines.FixedStates.Afterburner)
+		{
+			if (engines.liveState == PlayerEngines.LiveStates.Idle)
+			{
+				engines.ChangeLiveState(PlayerEngines.LiveStates.Accelerating);
+			}
+			Velocity += direction * (float)((ShipStats.CurrentFuel.Acceleration + ShipStats.CurrentSuperFuel.Acceleration) * delta);
+			ShipStats.CurrentFuel.Burn((float)delta);
+			ShipStats.CurrentSuperFuel.Burn((float)delta);
+			Velocity = Velocity.LimitLength(ShipStats.CurrentFuel.MaxSpeed + ShipStats.CurrentSuperFuel.MaxSpeed);
+		}
+		else
 		if (Input.IsActionPressed("ui_up"))
 		{
+			if (engines.liveState == PlayerEngines.LiveStates.Idle)
+			{
+				engines.ChangeLiveState(PlayerEngines.LiveStates.Accelerating);
+			}
 			// If "ui_up" is pressed, accelerate the ship in the given direction
-			Velocity += direction * (float)(acceleration * delta);
-			fuel -= 0.01f * 60.0f * (float)delta;
+			Velocity += direction * (float)(ShipStats.CurrentFuel.Acceleration * delta);
+			ShipStats.CurrentFuel.Burn((float)delta);
+			Velocity = Velocity.LimitLength(ShipStats.CurrentFuel.MaxSpeed);
 		}
 		else
 		{
-			// If "ui_up" is not pressed, apply friction to slow down the ship
-			if (Velocity.Length() > (friction * delta))
+			if (engines.liveState == PlayerEngines.LiveStates.Accelerating)
 			{
-				Velocity *= (float)Mathf.Pow(1.0 - friction, delta);
+				engines.ChangeLiveState(PlayerEngines.LiveStates.Idle);
+			}
+			// If "ui_up" is not pressed, apply friction to slow down the ship
+			if (Velocity.Length() > (ShipAttr.Friction * delta))
+			{
+				Velocity *= (float)Mathf.Pow(1.0 - ShipAttr.Friction, delta);
 			}
 			else
 			{
 				Velocity = Vector2.Zero;
 			}
 		}
-
-		// Limit the velocity to the maximum speed
-		Velocity = Velocity.LimitLength(maxspeed);
-		// Move the ship
-		MoveAndSlide();
-		EmitSignal(SignalName.StatsUpdate, integrity, fuel);
+		MoveAndCollide(Velocity * (float)delta);
+		EmitSignal(SignalName.StatsUpdate, ShipStats.Integrity, ShipStats.Shield, ShipStats.CurrentFuel.Amount, ShipStats.CurrentSuperFuel.Amount, ShipStats.ElectricCharge, Velocity.Length());
 	}
 
 	private void shipHeadingLanding(double delta)
 	{
 		if (Input.IsActionPressed("ui_thrustleft"))
 		{
-			Rotate(-landingAgility * (float)delta);
+			Rotate(-ShipAttr.LandingAgility * (float)delta);
 		}
 		if (Input.IsActionPressed("ui_thrustright"))
 		{
-			Rotate(landingAgility * (float)delta);
+			Rotate(ShipAttr.LandingAgility * (float)delta);
 		}
-		shipMovementLanding(delta);
 	}
 
 	private void shipMovementLanding(double delta)
 	{
 		// Move the ship towards the landing pad
 		direction = new Vector2(1, 0).Rotated(Rotation).Normalized();
-		strafeDirection = new Vector2(0, -1).Rotated(Rotation).Normalized();
+		var strafeDirection = new Vector2(0, -1).Rotated(Rotation).Normalized();
 		if (Input.IsActionPressed("ui_up"))
 		{
 			// If "ui_up" is pressed, accelerate the ship in the given direction
-			Velocity += direction * (float)(landingAcceleration * delta);
-			fuel -= 0.01f * 60.0f * (float)delta;
+			Velocity += direction * (float)(ShipStats.CurrentFuel.Acceleration * delta);
+			ShipStats.CurrentFuel.Burn((float)delta);
 		}
 		else if (Input.IsActionPressed("ui_down"))
 		{
-			Velocity -= direction * (float)(landingAcceleration * delta);
-			fuel -= 0.01f * 60.0f * (float)delta;
+			Velocity -= direction * (float)(ShipStats.CurrentFuel.Acceleration * delta);
+			ShipStats.CurrentFuel.Burn((float)delta);
 		}
 		else if (Input.IsActionPressed("ui_left") && !Input.IsKeyLabelPressed(Key.Shift))
 		{
-			Velocity += strafeDirection * (float)(landingAcceleration * delta);
-			fuel -= 0.01f * 60.0f * (float)delta;
+			Velocity += strafeDirection * (float)(ShipStats.CurrentFuel.Acceleration * delta);
+			ShipStats.CurrentFuel.Burn((float)delta);
 		}
 		else if (Input.IsActionPressed("ui_right") && !Input.IsKeyLabelPressed(Key.Shift))
 		{
-			Velocity -= strafeDirection * (float)(landingAcceleration * delta);
-			fuel -= 0.01f * 60.0f * (float)delta;
+			Velocity -= strafeDirection * (float)(ShipStats.CurrentFuel.Acceleration * delta);
+			ShipStats.CurrentFuel.Burn((float)delta);
 		}
 		else
 		{
 			// Apply friction to slow down the ship
-			if (Velocity.Length() > (friction * delta))
+			if (Velocity.Length() > (ShipAttr.Friction * delta))
 			{
-				Velocity *= (float)Mathf.Pow(1.0 - friction, delta);
+				Velocity *= (float)Mathf.Pow(1.0 - ShipAttr.Friction, delta);
 			}
 			else
 			{
@@ -326,72 +365,25 @@ public partial class PlayerShip : CharacterBody2D
 			}
 		}
 		// Limit the velocity to the maximum speed
-		Velocity = Velocity.LimitLength(maxspeed);
+		Velocity = Velocity.LimitLength(ShipStats.CurrentFuel.MaxSpeed);
 		// Move the ship
-		MoveAndSlide();
-		EmitSignal(SignalName.StatsUpdate, integrity, fuel);
-	}
-
-	private void updateShipAnims()
-	{
-		updateHullAnim();
-		updateEngineAnim();
-	}
-
-	private void updateHullAnim()
-	{
-	}
-
-	private void updateEngineAnim()
-	{
-		if (Input.IsActionPressed("ui_up"))
+		playerShipCollision = MoveAndCollide(Velocity * (float)delta);
+		if (playerShipCollision != null)
 		{
-			engines.animPlayer.Play("moving");
+			var hitinfo = playerShipCollision.GetCollider();
+			var localShape = playerShipCollision.GetLocalShape();
+			GD.Print(" Local Shape: ", localShape.ToString());
 		}
-		else
-		{
-			engines.animPlayer.Play("idle");
-		}
+		EmitSignal(SignalName.StatsUpdate, ShipStats.Integrity, ShipStats.Shield, ShipStats.CurrentFuel.Amount, ShipStats.CurrentSuperFuel.Amount, ShipStats.ElectricCharge, Velocity.Length());
 	}
 
-	public void ImproveStats(ShipStats statType, float amount)
+	public void EquipWeapon(PlayerWeaponFactory.Type weaponType)
 	{
-		switch (statType)
-		{
-			case ShipStats.integrity:
-				integrity += amount;
-				break;
-			case ShipStats.fuel:
-				fuel += amount;
-				break;
-		}
-		EmitSignal(SignalName.StatsUpdate, integrity, fuel);
-	}
-
-	public void ErodeStats(ShipStats statType, float amount)
-	{
-		switch (statType)
-		{
-			case ShipStats.integrity:
-				integrity -= amount;
-				break;
-			case ShipStats.fuel:
-				fuel -= amount;
-				break;
-		}
-		EmitSignal(SignalName.StatsUpdate, integrity, fuel);
-	}
-
-	public void EquipWeapon(WeaponFactory.Type weaponType)
-	{
-		if (weapon != null)
-		{
-			weapon.QueueFree();
-		}
-		weapon = WeaponFactory.LoadWeapon(weaponType);
+		Weapon?.QueueFree();
+		Weapon = PlayerWeaponFactory.LoadWeapon(weaponType);
 		weaponSlot = GetNode<Node2D>("WeaponSlot");
-		weaponSlot.AddChild(weapon);
+		weaponSlot.AddChild(Weapon);
 		EmitSignal(SignalName.WeaponUpdate, (int)weaponType);
-		weapon.OnEquip();
+		Weapon.OnEquip();
 	}
 }
