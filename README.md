@@ -1,8 +1,8 @@
-SUMMARY:
+**SUMMARY**
     > Welcome to my Demonstration Repo (The KYR Project - An International Online Community for ND Developers and Gamers). 
     This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced.
 
-OVERVIEW:
+**OVERVIEW**
     -   Documents 
         My CV - ("Adam Rees - CV - 280424.docx")
         Covering Letter ("Covering Letter.docx")
@@ -10,44 +10,44 @@ OVERVIEW:
         Folders Containing Chunks of Example Code
         Readme's to give context
 
-PROJECT TECH:
-    - OS
-        Ubuntu LTS (18.04 - The Bionic Beaver | 22.04 - The Jammy Jellyfish)
-        UFW
-    - CONTAINERS
-        Docker (24.0.7)
+**PROJECT TECH**
+- OS
+    Ubuntu LTS (18.04 - The Bionic Beaver | 22.04 - The Jammy Jellyfish)
+    UFW
+- CONTAINERS
+    Docker (24.0.7)
 
-    - LANGUAGES
-        Python (3.11)
-        TypeScript (5.2.2)
-        C# (10 - 12) & dotnet (8.0.301)
-        LUA (5.1)
-        GraphQL (API)
+- LANGUAGES
+    Python (3.11)
+    TypeScript (5.2.2)
+    C# (10 - 12) & dotnet (8.0.301)
+    LUA (5.1)
+    GraphQL (API)
 
-    - ORM
-        SQL Alchemy
-        Prisma
+- ORM
+    SQL Alchemy
+    Prisma
 
-    - DATABASES
-        SQLlite
-        MySQL
-        DBM
+- DATABASES
+    SQLlite
+    MySQL
+    DBM
 
-    - STRUCTURED DATA
-        Yaml
-        Json
-        GraphQL
+- STRUCTURED DATA
+    Yaml
+    Json
+    GraphQL
 
-    - EXPERIMENTAL LANGUAGES
-        Java (Kahlua)
-        Haskell
-        GoLang
+- EXPERIMENTAL LANGUAGES
+    Java (Kahlua)
+    Haskell
+    GoLang
 
-CONTACT DETAILS:
-    - Personal
-        Adam Rees, 07368 604934, Adzz.GSAU@Gmail.com
+**CONTACT DETAILS**
+- Personal
+    Adam Rees, 07368 604934, Adzz.GSAU@Gmail.com
 
-OVERVIEW:
+**OVERVIEW**
     > Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding.
     If you have any queries or questions, or any issues accessing these files, please reach out to me on the details above!
     Many Thanks, Adam
