@@ -8,9 +8,7 @@
     - My CV - (Adam Rees - CV.docx)
     - Covering Letter (Covering Letter.docx)
 - Examples
-    - Folders Containing Code 
-    - Readme's to give context
-
+    - Folders Containing Code && Readme's to give context
 
 **PROJECT TECH**
 - OS:
