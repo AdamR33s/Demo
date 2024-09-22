@@ -12,35 +12,35 @@
 
 **PROJECT TECH**
 - OS:
-    Ubuntu LTS (18.04 - The Bionic Beaver | 22.04 - The Jammy Jellyfish)
+    Ubuntu LTS 18.04 | 22.04 / 
     UFW
 - CONTAINERS:
     Docker (24.0.7)
 
 - LANGUAGES:
-    Python (3.11)
-    TypeScript (5.2.2)
-    C# (10 - 12) & dotnet (8.0.301)
-    LUA (5.1)
+    Python (3.11) / 
+    TypeScript (5.2.2) / 
+    C# (10 - 12) & dotnet (8.0.301) / 
+    LUA (5.1) / 
     GraphQL (API)
 
 - ORM:
-    SQL Alchemy
+    SQL Alchemy / 
     Prisma
 
 - DATABASES:
-    SQLlite
-    MySQL
+    SQLlite / 
+    MySQL / 
     DBM
 
 - STRUCTURED DATA:
-    Yaml
-    Json
+    Yaml / 
+    Json / 
     GraphQL
 
 - EXPERIMENTAL LANGUAGES:
-    Java (Kahlua)
-    Haskell
+    Java (Kahlua) / 
+    Haskell / 
     GoLang
 
 **CONTACT DETAILS**
