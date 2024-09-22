@@ -58,4 +58,4 @@
     > Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding.
     If you have any queries or questions, or any issues accessing these files, please reach out to me on the details above!
 
-    Many Thanks, Adam
+Many Thanks, Adam
