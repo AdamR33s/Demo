@@ -3,45 +3,45 @@
     This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced.
 
 **OVERVIEW**
-    -   Documents 
-        My CV - ("Adam Rees - CV - 280424.docx")
-        Covering Letter ("Covering Letter.docx")
-    -   Examples
-        Folders Containing Chunks of Example Code
-        Readme's to give context
+- Documents 
+    - My CV - ("Adam Rees - CV - 280424.docx")
+    - Covering Letter ("Covering Letter.docx")
+- Examples
+    - Folders Containing Chunks of Example Code
+    - Readme's to give context
 
 **PROJECT TECH**
 - OS:
-    Ubuntu LTS 18.04 | 22.04 / 
-    UFW
+    - Ubuntu LTS 18.04 | 22.04
+    - UFW
 - CONTAINERS:
-    Docker (24.0.7)
+    - Docker (24.0.7)
 
 - LANGUAGES:
-    Python (3.11) / 
-    TypeScript (5.2.2) / 
-    C# (10 - 12) & dotnet (8.0.301) / 
-    LUA (5.1) / 
-    GraphQL (API)
+    - Python (3.11)
+    - TypeScript (5.2.2) 
+    - C# (10 - 12) & dotnet (8.0.301)
+    - LUA (5.1)
+    - GraphQL (API)
 
 - ORM:
-    SQL Alchemy / 
-    Prisma
+    - SQL Alchemy
+    - Prisma
 
 - DATABASES:
-    SQLlite / 
-    MySQL / 
-    DBM
+    - SQLlite
+    - MySQL
+    - DBM
 
 - STRUCTURED DATA:
-    Yaml / 
-    Json / 
-    GraphQL
+    - Yaml
+    - Json
+    - GraphQL
 
 - EXPERIMENTAL LANGUAGES:
-    Java (Kahlua) / 
-    Haskell / 
-    GoLang
+    - Java (Kahlua)
+    - Haskell
+    - GoLang
 
 **CONTACT DETAILS**
 - Personal
