@@ -4,11 +4,9 @@
 
 **OVERVIEW**
 - Documents 
-    My CV - ("Adam Rees - CV - 280424.docx")
-    Covering Letter ("Covering Letter.docx")
+    My CV - ("Adam Rees - CV - 280424.docx") && Covering Letter ("Covering Letter.docx")
 - Examples
-    Folders Containing Chunks of Example Code
-    Readme's to give context
+    Folders Containing Chunks of Example Code && Readme's to give context
 
 **PROJECT TECH**
 - OS:
