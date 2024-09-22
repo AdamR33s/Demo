@@ -5,7 +5,7 @@
 
 **OVERVIEW**
 - Documents for Download (Won't View in GitHub!)
-    My CV - (Adam Rees - CV - 280424.docx) && Covering Letter (Covering Letter.docx)
+    My CV - (Adam Rees - CV.docx) && Covering Letter (Covering Letter.docx)
 - Examples
     Folders Containing Code && Readme's to give context
 
