@@ -11,10 +11,9 @@ OVERVIEW
         Readme's to give context
 
 PROJECT TECH
-    - OS
+- OS
         Ubuntu LTS (18.04 - The Bionic Beaver | 22.04 - The Jammy Jellyfish)
         UFW
-
     - CONTAINERS
         Docker (24.0.7)
 
