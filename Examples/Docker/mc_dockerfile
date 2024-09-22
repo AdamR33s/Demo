@@ -1,0 +1,40 @@
+FROM ubuntu:23.04
+
+# Add multiverse repository and install necessary tools
+RUN apt-get update && apt-get install -y \
+    software-properties-common curl && \
+    add-apt-repository multiverse && \
+    apt-get update
+
+# Install 32-bit architecture support and dependencies
+RUN dpkg --add-architecture i386 && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get update && \
+    apt-get install --no-install-recommends --assume-yes \
+    libc6:i386 libncurses5:i386 libstdc++6:i386 openjdk-21-jre python3 python3-venv python3-pip \
+    && apt-get clean
+
+RUN groupadd -g 1016 servers && \
+    useradd -g 1016 -u 1015 mc
+
+COPY --chown=mc:1016 mc1_entrypoint.py /mc/setup/mc1_entrypoint.py
+COPY --chown=mc:1016 mc2_entrypoint.py /mc/setup/mc2_entrypoint.py
+COPY --chown=mc:1016 mc_settings.py /mc/setup/mc_settings.py
+COPY --chown=mc:1016 server.properties /mc/setup/server.properties
+COPY --chown=mc:1016 server.jar /mc/setup/server.jar
+COPY --chown=mc:1016 eula.txt /mc/setup/eula.txt
+COPY --chown=mc:1016 /forge/forge-1.21.1-52.0.16-installer.jar /mc/setup/forge-1.21.1-52.0.16-installer.jar
+
+RUN chmod 775 /mc/ \
+    && chmod +x /mc/setup/server.jar \
+    && chmod +x /mc/setup/forge-1.21.1-52.0.16-installer.jar \
+    && chmod +x /mc/setup/mc1_entrypoint.py \
+    && chmod +x /mc/setup/mc2_entrypoint.py \
+    && chown -R mc:1016 /mc/
+
+USER mc
+WORKDIR /mc
+
+RUN python3.11 -m venv mcv \
+    && . /mc/mcv/bin/activate \
+    && pip install --no-cache-dir --upgrade pip aioconsole aiohttp

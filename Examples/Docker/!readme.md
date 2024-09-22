@@ -1,0 +1,1 @@
+A breakdown of some of the Containers built to house quite complicated Java/Khulua/LUA applications. These containers can be destroyed and completely rebuilt to fully functional and running via single commands through Discords API. They also allow live interactions from our Bot's in Discord through their own mini API's.
