@@ -1,15 +1,14 @@
 import { Client } from 'discord.js';
+import { SystemControl, Advert } from './cmInterfaces';
 import * as Utils from './cmUtils';
-import * as Interfaces from './cmInterfaces';
 import * as Embeds from './cmEmbeds'
 import * as DB from './cmDb'
-import { Interface } from 'node:readline';
 
 export async function autoService(client: Client) {
     try {
         const advertsController = await DB.sysControlsGrabByName(`Adverts`)
         await controllerCheck(advertsController)
-        if(advertsController.bool === false) { return }
+        if (advertsController.bool === false) { return }
         const randomAdvert = await selectRandom(client)
         await print(randomAdvert)
         advertsController.dt = new Date()
@@ -20,7 +19,7 @@ export async function autoService(client: Client) {
     }
 }
 
-export async function print(advert: Interfaces.Advert) {
+export async function print(advert: Advert) {
     try {
         const advert_embed = await Embeds.createAdvert(advert);
         const chat_channel = Utils.textChannelsList[`chat`]
@@ -32,9 +31,9 @@ export async function print(advert: Interfaces.Advert) {
     }
 }
 
-async function controllerCheck(advertsController: Interfaces.systemControl) {
-    if(advertsController.dt) {
-        if((advertsController.dt.getTime() - new Date().getTime()) > 36 * 60 * 60 * 1000 ) {
+async function controllerCheck(advertsController: SystemControl) {
+    if (advertsController.dt) {
+        if ((advertsController.dt.getTime() - new Date().getTime()) > 36 * 60 * 60 * 1000) {
             advertsController.bool = true
         } else {
             advertsController.bool = false
@@ -50,8 +49,8 @@ async function controllerCheck(advertsController: Interfaces.systemControl) {
 async function selectRandom(client: Client) {
     try {
         const suitableAds = new Array
-        const advertRows: Interfaces.Advert[] | null = await DB.advertsGrabAll()
-        if(!advertRows) {
+        const advertRows: Advert[] | null = await DB.advertsGrabAll()
+        if (!advertRows) {
             await Utils.textChannelsList[`bot-control-room`].send(`No Adverts to Send`)
             return
         }
@@ -61,7 +60,7 @@ async function selectRandom(client: Client) {
             } else {
                 const timeDifference = new Date().getTime() - advert.lastSent.getTime();
                 const hoursSinceLastSent = timeDifference / (1000 * 60 * 60);
-                if(hoursSinceLastSent >= 36) {
+                if (hoursSinceLastSent >= 36) {
                     suitableAds.push(advert)
                 }
             }

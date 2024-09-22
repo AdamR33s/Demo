@@ -5,7 +5,6 @@ import * as Services from './cmServices.js';
 import * as Members from './cmUsers.js';
 import * as Logs from './cmLogs'
 
-
 const client = new Client({
 	intents: [
 		`Guilds`,
@@ -20,6 +19,7 @@ const client = new Client({
 client.on(`ready`, async () => {
 	//
 	try {
+		console.log(`[KYR] Community Manager Booting...`);
 		console.log(`Running Data Checks...`)
 		await System.sysBootCheck(client);
 		console.log(`Loading Channel List`)
@@ -43,4 +43,4 @@ client.on(`messageCreate`, async (message) => {
 	await Services.message_Broker(client, message);
 });
 
-//Client Login Would go Here!
+//Client Login and Token would be substituted here via .env/TOML
