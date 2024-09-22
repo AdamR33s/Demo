@@ -23,24 +23,35 @@ PROJECT TECH:
         TypeScript (5.2.2)
         C# (10 - 12) & dotnet (8.0.301)
         LUA (5.1)
+        GraphQL (API)
 
     - ORM
         SQL Alchemy
         Prisma
 
+    - DATABASES:
+        SQLlite
+        MySQL
+        DBM
+
+    - STRUCTURED DATA:
+        Yaml
+        Json
+        GraphQL
+
     - EXPERIMENTAL LANGUAGES
+        Java (Kahlua)
         Haskell
         GoLang
 
+CONTACT DETAILS:
+    - Personal
+        Adam Rees, 07368 604934, Adzz.GSAU@Gmail.com
 
-
-Databases:
-    SQLlite
-    MySQL
-
-Summary Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding. If you have any queries or questions, or any issues accessing these files, please reach out to me on the details above!
-
-Many Thanks, Adam
+OVERVIEW:
+    > Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding.
+    If you have any queries or questions, or any issues accessing these files, please reach out to me on the details above!
+    Many Thanks, Adam
 
 
 
