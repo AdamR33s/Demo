@@ -10,10 +10,12 @@
 
 **PROJECT TECH**
 - OS:
-    - Ubuntu LTS 18.04 | 22.04
+    - Ubuntu LTS 18.04 | 22.04 (Some Bash Scripting)
     - UFW
+
 - CONTAINERS:
     - Docker (24.0.7)
+    - Docker Compose
 
 - LANGUAGES:
     - Python (3.11)
@@ -21,6 +23,7 @@
     - C# (10 - 12) & dotnet (8.0.301)
     - LUA (5.1)
     - GraphQL (API)
+    - Regex
 
 - ORM:
     - SQL Alchemy
