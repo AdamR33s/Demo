@@ -11,34 +11,34 @@
         Readme's to give context
 
 **PROJECT TECH**
-- OS
+- OS:
     Ubuntu LTS (18.04 - The Bionic Beaver | 22.04 - The Jammy Jellyfish)
     UFW
-- CONTAINERS
+- CONTAINERS:
     Docker (24.0.7)
 
-- LANGUAGES
+- LANGUAGES:
     Python (3.11)
     TypeScript (5.2.2)
     C# (10 - 12) & dotnet (8.0.301)
     LUA (5.1)
     GraphQL (API)
 
-- ORM
+- ORM:
     SQL Alchemy
     Prisma
 
-- DATABASES
+- DATABASES:
     SQLlite
     MySQL
     DBM
 
-- STRUCTURED DATA
+- STRUCTURED DATA:
     Yaml
     Json
     GraphQL
 
-- EXPERIMENTAL LANGUAGES
+- EXPERIMENTAL LANGUAGES:
     Java (Kahlua)
     Haskell
     GoLang
