@@ -1,11 +1,11 @@
-### AUTHOR: Adzz (A.K.A R4ptor or Tot4ll3d) ###
+### AUTHOR: Adam R33s (A.K.A R4ptor or Tot4ll3d) ###
 ### EMAIL:
 # Adzz.GSAU@Gmail.com - My Personal Email
 # R4ptor@KYRGaming.com - My Gaming Server Queries Email
 # Tot4ll3d@KYRGaming.com - My Community Queries Email
 ### CREATED: 07/08/2024 ### (COPY)
 ### VERSION: V2.0.0 ###
-### SUMMARY: New Database Manager, fully Async using AIO MySQL and SQLAlchemy with full ORM features and Type Inference"
+### SUMMARY: New Database Manager, fully Async using AIO MySQL and SQLAlchemy with full ORM features and Type Inference" ###
 
 import sys
 import aiomysql

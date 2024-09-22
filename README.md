@@ -1,20 +1,54 @@
-Welcome to my Demonstration Repo 
+SUMMARY:
+    > Welcome to my Demonstration Repo (The KYR Project - An International Online Community for ND Developers and Gamers). 
+    This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced.
 
-The full KYR project is over 10,000+ lines of code over 4 languages, 3 databases, 2 API's, 1 Dedicated Server, 9 Dedicated Online Gaming Servers, 1 Website, 120,000+ online subscribers and 200+ international discord members. 
+OVERVIEW:
+    -   Documents 
+        My CV - ("Adam Rees - CV - 280424.docx")
+        Covering Letter ("Covering Letter.docx")
+    -   Examples
+        Folders Containing Chunks of Example Code
+        Readme's to give context
 
-I've tried my best to give a slice of the project and what I've taught myself over the past 18months. I would love to appear in person/video call to talk through the full private project repo in detail for anyone who might be interested in my services!
+PROJECT TECH:
+    -   OS
+        Ubuntu LTS (18.04 - The Bionic Beaver | 22.04 - The Jammy Jellyfish)
+        UFW
 
-Contact Details 
-Adam Rees - 07400 28 3333 - Adzz.GSAU@gmail.com Founder - KYR Gaming - An International Online Community for ND Developers and Gamers.
+    - CONTAINERS
+        Docker (24.0.7)
 
-Overview Here you'll find:
+    - LANGUAGES
+        Python (3.11)
+        TypeScript (5.2.2)
+        C# (10 - 12) & dotnet (8.0.301)
+        LUA (5.1)
 
-    My CV - ("Adam Rees - CV - 280424.docx")
-    Covering Letter ("Covering Letter.docx")
-    An updated copy of the KYR Project Review Presentation ("The [KYR] Project (No Comments).pptx" - PowerPoint Format)
-    Current Project Examples
+    - ORM
+        SQL Alchemy
+        Prisma
 
-The majority of my projects have been fueled by founding 'The [KYR] Community'. I've written a Bot in Python, Typescript and C#. They all work via Discord's API, the Python Bot also interacts with Major API's such as Twitch and Steam.
+    - EXPERIMENTAL LANGUAGES
+        Haskell
+        GoLang
+
+
+
+Databases:
+    SQLlite
+    MySQL
+
+Summary Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding. If you have any queries or questions, or any issues accessing these files, please reach out to me on the details above!
+
+Many Thanks, Adam
+
+
+
+
+
+
+
+
 
 Project Examples:
 
@@ -29,7 +63,3 @@ Docker/Docker Compose - Containers - I've used Docker across the project for sec
 TypeScript - Bot and ORM - I also wrote a discord bot in Typescript and again used an ORM layer (PRISMA). Typescript I've spent less time on than other languages but love some of it's features. I've not spent as much time on the environmental elements of JavaScript/Typescript either. I had some assistance in getting ESBuilder up and running to make the TS project happen. I've included files "cm.ts", "cmAdverts.ts", "cmDb.ts" and "schema.prisma" to demonstrate some of the basic functionality and intial API hook in this has. Functionality for this is still quite basic at the moment.
 
 LUA Script - Video Game Modifications - A very interesting project undertaken to modify a piece of Software originally written in Java, using a KHLUA, with a top level of LUA Script. This presented a whole range of crazy challenges like the iteration of objects returned from Java crashing due to the difference in Indexing! I've included some of the base Modules I wrote as part of this project (community request). Amazingly when released to the general public I achieved over 100,000 public subcribers for these projects: Steam Workshop::[KYR] Real Weather Mod (steamcommunity.com) Steam Workshop::[KYR] Meds, Cures and Delays (steamcommunity.com) Steam Workshop::[KYR] Survival & Crafting (steamcommunity.com) I've included files "kyrMCDmedeffects.lua", "kyrMCDsetup.lua" and "kyrMCDvaccine.lua" to give a taste of what these projects included.
-
-Summary Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding. If you have any queries or questions, or any issues accessing these files, please reach out to me on the details above!
-
-Many Thanks, Adam
