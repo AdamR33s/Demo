@@ -1,12 +1,12 @@
 **SUMMARY**
     > Welcome to my Demonstration Repo (The KYR Project - An International Online Community for ND Developers and Gamers). 
-    This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced.
+    This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced to servce the 135,000+ active users we have to date.
 
 **OVERVIEW**
 - Documents 
-    My CV - ("Adam Rees - CV - 280424.docx") && Covering Letter ("Covering Letter.docx")
+    My CV - (Adam Rees - CV - 280424.docx) && Covering Letter (Covering Letter.docx)
 - Examples
-    Folders Containing Chunks of Example Code && Readme's to give context
+    Folders Containing Code && Readme's to give context
 
 **PROJECT TECH**
 - OS:
