@@ -1,8 +1,8 @@
-SUMMARY
+SUMMARY:
     > Welcome to my Demonstration Repo (The KYR Project - An International Online Community for ND Developers and Gamers). 
     This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced.
 
-OVERVIEW
+OVERVIEW:
     -   Documents 
         My CV - ("Adam Rees - CV - 280424.docx")
         Covering Letter ("Covering Letter.docx")
@@ -10,8 +10,8 @@ OVERVIEW
         Folders Containing Chunks of Example Code
         Readme's to give context
 
-PROJECT TECH
-- OS
+PROJECT TECH:
+    - OS
         Ubuntu LTS (18.04 - The Bionic Beaver | 22.04 - The Jammy Jellyfish)
         UFW
     - CONTAINERS
@@ -43,11 +43,11 @@ PROJECT TECH
         Haskell
         GoLang
 
-CONTACT DETAILS
+CONTACT DETAILS:
     - Personal
         Adam Rees, 07368 604934, Adzz.GSAU@Gmail.com
 
-OVERVIEW
+OVERVIEW:
     > Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding.
     If you have any queries or questions, or any issues accessing these files, please reach out to me on the details above!
     Many Thanks, Adam
