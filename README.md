@@ -1,6 +1,6 @@
 **SUMMARY**
     > Welcome to my Demonstration Repo (The KYR Project - An International Online Community for ND Developers and Gamers). 
-    This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced to servce the 135,000+ active users we have to date.
+    This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced to service the 135,000+ active users we have to date.
 
 
 **OVERVIEW**
