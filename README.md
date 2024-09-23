@@ -1,13 +1,13 @@
 **OVERVIEW**
+    > Welcome to my Demonstration Repo (The KYR Project - An International Online Community for ND Developers and Gamers). 
+    This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced to service the 135,000+ active users we have to date.
+
 - Documents for Download (Won't View in GitHub!)
     - My CV - (Adam Rees - CV.docx)
     - Covering Letter (Covering Letter.docx)
 - Examples
     - Folders Containing Code && Readme's to give context
 
-**SUMMARY**
-    > Welcome to my Demonstration Repo (The KYR Project - An International Online Community for ND Developers and Gamers). 
-    This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced to service the 135,000+ active users we have to date.
 
 **PROJECT DETAILS**
     > Here are *some* of the key features and functionality I've built to date and the tech used to achieve this:
@@ -18,6 +18,7 @@
 - Bots interact with Users around real-time data.
 - Bots interact with Container Applications via Mini APIs.
 - Large GraphQL / WebScraping Project to serve Data to Users via Bot.
+
 
 **PROJECT TECH**
 - OS:
@@ -62,6 +63,7 @@
 **CONTACT DETAILS**
 - Personal
     Adam Rees, 07368 604934, Adzz.GSAU@Gmail.com
+
 
 **OVERVIEW**
     > Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding.
