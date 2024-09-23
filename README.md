@@ -10,7 +10,7 @@
     - Folders Containing Code && Readme's to give context
 
 **PROJECT DETAILS**
-Here are *some* of the key features and functionality I've built to date and the tech used to achieve this:
+    > Here are *some* of the key features and functionality I've built to date and the tech used to achieve this:
 
 - Docker Container State Save, Shutdown, Deletion, Image Deletion, Re-build and application re-launch all automated through single line commands.
 - Security Features through API’s with 256bit Keys.
