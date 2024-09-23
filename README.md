@@ -2,7 +2,6 @@
     > Welcome to my Demonstration Repo (The KYR Project - An International Online Community for ND Developers and Gamers). 
     This Repo is designed to give a cross-section of the wider KYR Community Project, giving some examples of the languages, data structures and software produced to service the 135,000+ active users we have to date.
 
-
 **OVERVIEW**
 - Documents for Download (Won't View in GitHub!)
     - My CV - (Adam Rees - CV.docx)
@@ -11,6 +10,16 @@
     - Folders Containing Code && Readme's to give context
 
 **PROJECT TECH**
+Here are *some* of the key features and functionality I've built to date and the tech used to achieve this:
+
+- Docker Container State Save, Shutdown, Deletion, Image Deletion, Re-build and application re-launch all automated through single line commands.
+- Security Features through API’s with 256bit Keys.
+- Data Parsing from Java => Lua => SQLite => MYSQL => Python / Typescript => Users.
+- Bots interact with Users around real-time data.
+- Bots interact with Container Applications via Mini APIs.
+- Large GraphQL / WebScraping Project to serve Data to Users via Bot.
+
+
 - OS:
     - Ubuntu LTS 18.04 | 22.04 (Some Bash Scripting)
     - UFW
