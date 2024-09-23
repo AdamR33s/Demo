@@ -7,7 +7,8 @@
     - Covering Letter (Covering Letter.docx)
 - Examples
     - Folders Containing Code && Readme's to give context
-
+    
+    
 
 **PROJECT DETAILS**
     > Here are *some* of the key features and functionality I've built to date and the tech used to achieve this:
@@ -18,6 +19,7 @@
 - Bots interact with Users around real-time data.
 - Bots interact with Container Applications via Mini APIs.
 - Large GraphQL / WebScraping Project to serve Data to Users via Bot.
+
 
 
 **PROJECT TECH**
@@ -58,13 +60,15 @@
 
 - SOURCE MANAGEMENT / DVCS
     - Git
-
+    
+    
 
 **CONTACT DETAILS**
 - Personal
     Adam Rees, 07368 604934, Adzz.GSAU@Gmail.com
-
-
+    
+    
+    
 **OVERVIEW**
     > Please feel free to explore, I hope you'll find this interesting and informative in terms of my skills and understanding.
     If you have any queries or questions, or any issues accessing these files, please reach out to me on the details above!
