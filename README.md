@@ -9,7 +9,7 @@
 - Examples
     - Folders Containing Code && Readme's to give context
 
-**PROJECT TECH**
+**PROJECT DETAILS**
 Here are *some* of the key features and functionality I've built to date and the tech used to achieve this:
 
 - Docker Container State Save, Shutdown, Deletion, Image Deletion, Re-build and application re-launch all automated through single line commands.
@@ -19,7 +19,7 @@ Here are *some* of the key features and functionality I've built to date and the
 - Bots interact with Container Applications via Mini APIs.
 - Large GraphQL / WebScraping Project to serve Data to Users via Bot.
 
-
+**PROJECT TECH**
 - OS:
     - Ubuntu LTS 18.04 | 22.04 (Some Bash Scripting)
     - UFW
